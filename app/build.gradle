@@ -24,7 +24,7 @@ dependencies {
     // Added for AdMob
     compile project(':javajokes')
     compile project(":displayjoke")
-    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.google.android.gms:play-services:9.2.1'
     compile project(path: ':backend', configuration: 'android-endpoints')
 }
