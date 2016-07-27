@@ -1,18 +1,17 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.free;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.displayjoke.JokeActivity;
-import com.udacity.gradle.Joker;
-
+import com.udacity.gradle.builditbigger.AsyncJokeDownloader;
+import com.udacity.gradle.builditbigger.DownloadListener;
+import com.udacity.gradle.builditbigger.R;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -47,13 +46,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void tellJoke(View view){
-        new EndpointsAsyncTask().execute(this);
-        Joker joker = new Joker();
-        Toast.makeText(this, joker.getJoke(), Toast.LENGTH_SHORT).show();
-        String joke = joker.getJoke();
-        Intent intent = new Intent(this, JokeActivity.class);
-        intent.putExtra("joke",joke);
-        startActivity(intent);
+        new AsyncJokeDownloader(new DownloadListener() {
+            @Override
+            public void downloadCompleted(String joke) {
+                Intent intent = new Intent(getApplicationContext(), JokeActivity.class);
+                intent.putExtra("joke",joke);
+                MainActivity.this.startActivity(intent);
+            }
+        }).downloadJoke();
     }
 
 
